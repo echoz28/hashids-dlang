@@ -25,11 +25,11 @@ class Hashids {
 
         char[] str = alphas.dup;
 
-        for(int i = str.length - 1, v = 0, p = 0; i > 0; i--, v++){
+        for(long i = str.length - 1, v = 0, p = 0; i > 0; i--, v++){
             v %= salt.length;
-            int c = salt[v];
+            long c = salt[v];
             p += c;
-            int j = (c + v + p) % i;
+            long j = (c + v + p) % i;
 
             char temp = str[j];
             str[j] = str[i];
@@ -90,11 +90,11 @@ class Hashids {
 
         if (!seps.length || (alphabet.length.to!float / seps.length.to!float) > sepDiv) {
 
-            int sepslength = ceil(alphabet.length / sepDiv).to!int;
+            long sepslength = ceil(alphabet.length / sepDiv).to!ulong;
             if(sepslength == 1) sepslength++;
 
             if(sepslength > seps.length) {
-                int diff = sepslength - seps.length;
+                long diff = sepslength - seps.length;
                 seps = seps ~ alphabet[0..diff];
                 alphabet = alphabet[diff..$];
             } else {
@@ -148,14 +148,14 @@ class Hashids {
             }
         }
 
-        int halflen = alphas.length / 2;
+        long halflen = alphas.length / 2;
         while (res.length < minHashLength){
             alphas = consistentShuffle(alphas, alphas);
             res = alphas[halflen..$] ~ res ~ alphas[0..halflen];
 
-            int excess = res.length - minHashLength;
+            long excess = res.length - minHashLength;
             if (excess > 0){
-                int half = excess/2;
+                long half = excess/2;
                 res = res[half..half+minHashLength];
             }
         }
